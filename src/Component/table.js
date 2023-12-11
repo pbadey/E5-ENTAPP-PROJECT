@@ -4,7 +4,6 @@ export default function Table({ tasks, modifyTask, deleteTask }) {
             <thead className="thead">
                 <tr>
                     <th>Titre</th>
-                    <th>Description</th>
                     <th>Statut</th>
                     <th>Actions</th>
                 </tr>
@@ -13,7 +12,6 @@ export default function Table({ tasks, modifyTask, deleteTask }) {
                 {tasks.map((task) => (
                     <tr key={task.id}>
                         <td>{task.title}</td>
-                        <td>{task.description}</td>
                         <td>{task.status}</td>
                         <td>
                             <button className='liteButton' onClick={modifyTask(task.id)}>Modifier</button>

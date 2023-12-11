@@ -52,7 +52,7 @@ export default function HomePage() {
         </p>
 
       </header>
-      <button className='CreateNewTask' onClick={createNewTask}>Créer une nouvelle tâche</button>
+      <button className='CreateNewTask' onClick={createNewTask}> + </button>
 
       <Table tasks={tasks} modifyTask={modifyTask} deleteTask={deleteTask} />
     </div>
