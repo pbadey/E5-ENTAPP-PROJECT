@@ -1,48 +1,54 @@
-import Table from '../../Component/table';
+import { useEffect, useState } from 'react';
 import './home.css';
+import API_Manager from '../../services/API_Manager';
+import Row from '../../Component/row';
 
 export default function HomePage() {
-  const createNewTask = () => {
-    console.log('TODO: create new task');
-  }
-  const modifyTask = (id) => () => {
-    console.log(`TODO: modify task ${id}`);
-  }
-  const deleteTask = (id) => () => {
-    console.log(`TODO: delete task ${id}`);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    API_Manager.getTodos()
+      .then((response) => {
+        setTodos(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  function addTodo() {
+    let text = prompt('Nouvelle tâche');
+    let todo = {
+      text,
+      status: false,
+    };
+
+    API_Manager.addTodo(todo)
+      .then((response) => {
+        setTodos([...response.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   const tasks = [
     {
       id: 1,
       title: 'Ma tâche',
-      description: 'Ma description',
-      status: 'En cours',
+      status: false,
     },
     {
       id: 2,
       title: 'Ma tâche 2',
-      description: 'Ma description 2',
-      status: 'Fini',
+      status: false,
     },
     {
       id: 3,
       title: 'Ma tâche 3',
-      description: 'Ma description 3',
-      status: 'En attente',
+      status: false,
     },
-    {
-      id: 4,
-      title: 'Ma tâche 4',
-      description: 'Ma description 4',
-      status: 'A faire',
-    },
-    {
-      id: 5,
-      title: 'Ma tâche 5',
-      description: 'Ma description 5',
-      status: 'En cours',
-    }
+    
   ]
   return (
     <div className="App">
@@ -52,10 +58,24 @@ export default function HomePage() {
         </p>
 
       </header>
-      <button className='CreateNewTask' onClick={createNewTask}> + </button>
+      <button className='CreateNewTask' onClick={addTodo}> Nouvelle tâche </button>
 
-      <Table tasks={tasks} modifyTask={modifyTask} deleteTask={deleteTask} />
+      <table className="table">
+            <thead className="thead">
+                <tr>
+                    <th>Terminer</th>
+                    <th>Titre</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {tasks.map((task) => (
+                    <Row key={task.id} object={task} />
+                ))}
+            </tbody>
+        </table>
+  
     </div>
   );
 }
-
