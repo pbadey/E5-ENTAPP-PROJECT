@@ -7,7 +7,7 @@ export default function HomePage() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    getTodos()
+    API_Manager.getTodos()
       .then((response) => {
         setTodos(response.data);
       })
@@ -16,21 +16,40 @@ export default function HomePage() {
       });
   }, []);
 
-  async function newTodo() {
-    let title = prompt('Nouvelle tâche');
+  function addTodo() {
+    let text = prompt('Nouvelle tâche');
     let todo = {
-      id: todos.length + 1,
-      title,
-      status: 'A faire',
+      text,
+      status: false,
     };
-    try {
-      const response = await addTodo(todo);
-      setTodos([...todos, response.data]);
-    } catch (error) {
-      console.log(error);
-    }
+
+    API_Manager.addTodo(todo)
+      .then((response) => {
+        setTodos([...response.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
+  const tasks = [
+    {
+      id: 1,
+      title: 'Ma tâche',
+      status: false,
+    },
+    {
+      id: 2,
+      title: 'Ma tâche 2',
+      status: false,
+    },
+    {
+      id: 3,
+      title: 'Ma tâche 3',
+      status: false,
+    },
+    
+  ]
   return (
     <div className="App">
       <header className="App-header">
@@ -42,20 +61,21 @@ export default function HomePage() {
       <button className='CreateNewTask' onClick={addTodo}> Nouvelle tâche </button>
 
       <table className="table">
-        <thead className="thead">
-          <tr>
-            <th>Titre</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {todos.map((task) => (
-            <Row key={task.id} object={task} />
-          ))}
-        </tbody>
-      </table>
-
+            <thead className="thead">
+                <tr>
+                    <th>Terminer</th>
+                    <th>Titre</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {tasks.map((task) => (
+                    <Row key={task.id} object={task} />
+                ))}
+            </tbody>
+        </table>
+  
     </div>
   );
 }

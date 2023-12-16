@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import API_Manager from "../services/API_Manager"
 
-export default function Row(props) {
+export default function Row( props ) {
     // Retrieve data from props
     const { id, title, status } = props.object
 
@@ -60,9 +60,12 @@ export default function Row(props) {
     return (
         <tr key={id}>
             <td>
-                <button className='liteButton' >Modifier</button>
+                <input type="checkbox" checked={statusForm} onChange={statusChange} />
+            </td>
+            <td>{title}</td>
+            <td>{status ? "Fait" : "A faire"}</td>
+            <td>
                 <button className='liteButton' >Supprimer</button>
-
             </td>
         </tr>
     );
