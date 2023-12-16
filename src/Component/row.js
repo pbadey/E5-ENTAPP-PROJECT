@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { updateTodo, deleteTodo } from "../services/api"
 
-export default function Row( props ) {
+export default function Row(props) {
     // Retrieve data from props
     const { id, title, status } = props.object
 
@@ -62,8 +62,8 @@ export default function Row( props ) {
             <td>{title}</td>
             <td>{status}</td>
             <td>
-            <button className='liteButton' >Modifier</button>
-            <button className='liteButton' >Supprimer</button>
+                <button className='liteButton' >Modifier</button>
+                <button className='liteButton' >Supprimer</button>
 
             </td>
         </tr>
