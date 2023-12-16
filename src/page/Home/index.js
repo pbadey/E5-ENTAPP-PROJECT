@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './home.css';
+import API_Manager from '../../services/API_Manager';
 import Row from '../../Component/row';
-import { addTodo, getTodos } from '../../services/api';
 
 export default function HomePage() {
   const [todos, setTodos] = useState([]);
@@ -39,7 +39,7 @@ export default function HomePage() {
         </p>
 
       </header>
-      <button className='CreateNewTask' onClick={newTodo}> Nouvelle tâche </button>
+      <button className='CreateNewTask' onClick={addTodo}> Nouvelle tâche </button>
 
       <table className="table">
         <thead className="thead">

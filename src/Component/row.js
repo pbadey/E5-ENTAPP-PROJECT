@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { updateTodo, deleteTodo } from "../services/api"
+import API_Manager from "../services/API_Manager"
 
 export default function Row(props) {
     // Retrieve data from props
@@ -20,7 +20,7 @@ export default function Row(props) {
     const statusChange = (event) => {
         setStatus(event.target.checked)
 
-        updateTodo({
+        API_Manager.updateTodo({
             id: id,
             title: textForm,
             status: event.target.checked
@@ -37,7 +37,7 @@ export default function Row(props) {
 
     // Post update to API
     const sendUpdate = (todo) => {
-        updateTodo({
+        API_Manager.updateTodo({
             id: id,
             title: textForm,
             status: statusForm
@@ -49,7 +49,7 @@ export default function Row(props) {
 
     // Delete function triggered by button
     const deleteTodo = () => {
-        deleteTodo(id)
+        API_Manager.deleteTodo(id)
             .then(() => {
                 document.getElementById(id).remove()
             })
@@ -59,8 +59,6 @@ export default function Row(props) {
     }
     return (
         <tr key={id}>
-            <td>{title}</td>
-            <td>{status}</td>
             <td>
                 <button className='liteButton' >Modifier</button>
                 <button className='liteButton' >Supprimer</button>
