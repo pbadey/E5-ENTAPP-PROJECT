@@ -1,61 +1,62 @@
-import Table from '../../Component/table';
+import { useEffect, useState } from 'react';
 import './home.css';
+import Row from '../../Component/row';
+import { addTodo, getTodos } from '../../services/api';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function HomePage() {
-  const createNewTask = () => {
-    console.log('TODO: create new task');
-  }
-  const modifyTask = (id) => () => {
-    console.log(`TODO: modify task ${id}`);
-  }
-  const deleteTask = (id) => () => {
-    console.log(`TODO: delete task ${id}`);
-  }
+ const [todos, setTodos] = useState([]);
 
-  const tasks = [
-    {
-      id: 1,
-      title: 'Ma tâche',
-      description: 'Ma description',
-      status: 'En cours',
-    },
-    {
-      id: 2,
-      title: 'Ma tâche 2',
-      description: 'Ma description 2',
-      status: 'Fini',
-    },
-    {
-      id: 3,
-      title: 'Ma tâche 3',
-      description: 'Ma description 3',
-      status: 'En attente',
-    },
-    {
-      id: 4,
-      title: 'Ma tâche 4',
-      description: 'Ma description 4',
-      status: 'A faire',
-    },
-    {
-      id: 5,
-      title: 'Ma tâche 5',
-      description: 'Ma description 5',
-      status: 'En cours',
-    }
-  ]
-  return (
+ useEffect(() => {
+    getTodos()
+      .then((response) => {
+        setTodos(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+ }, []);
+
+ async function newTodo() {
+  let title = prompt('Nouvelle tâche');
+  let todo = {
+     id: uuidv4(),
+     title,
+     status: 'A faire',
+  };
+  try {
+     await addTodo(todo);
+     getTodos().then((response) => {
+      setTodos(response);
+    })
+  } catch (error) {
+     console.log(error);
+  }
+ }
+
+ return (
     <div className="App">
       <header className="App-header">
         <p>
           Bienvenue sur la page d'accueil de l'application TODO !
         </p>
-
       </header>
-      <button className='CreateNewTask' onClick={createNewTask}> + </button>
+      <button className='CreateNewTask' onClick={newTodo}> Nouvelle tâche </button>
 
-      <Table tasks={tasks} modifyTask={modifyTask} deleteTask={deleteTask} />
-    </div>
-  );
+      <table className="table">
+            <thead className="thead">
+                <tr>
+                    <th>Titre</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {todos && todos.map((task) => (
+                    <Row key={task.id} object={task} />
+                ))}
+            </tbody>
+        </table>
+   </div>
+ );
 }
-
