@@ -38,7 +38,7 @@ export default function HomePage() {
     <div className="App">
       <header className="App-header">
         <p>
-          Bienvenue sur la page d'accueil de l'application TODO !
+          Bienvenue sur la page d'accueil de l'application TODO - DEV de chanteur !
         </p>
       </header>
       <button className='CreateNewTask' onClick={newTodo}> Nouvelle tâche </button>
