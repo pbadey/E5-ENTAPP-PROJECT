@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: "https://8mj5vbrs0k.execute-api.eu-west-2.amazonaws.com/dev",
+  baseURL: "https://7sbu9rt3z9.execute-api.eu-west-2.amazonaws.com/prod",
 });
 
 export async function getTodos() {
