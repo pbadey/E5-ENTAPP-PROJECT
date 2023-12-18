@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './home.css';
 import Row from '../../Component/row';
 import { addTodo, getTodos } from '../../services/api';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function HomePage() {
  const [todos, setTodos] = useState([]);
@@ -9,7 +10,7 @@ export default function HomePage() {
  useEffect(() => {
     getTodos()
       .then((response) => {
-        setTodos(response.data);
+        setTodos(response);
       })
       .catch((error) => {
         console.log(error);
@@ -19,13 +20,15 @@ export default function HomePage() {
  async function newTodo() {
   let title = prompt('Nouvelle tâche');
   let todo = {
-     id: todos.length + 1,
+     id: uuidv4(),
      title,
      status: 'A faire',
   };
   try {
-     const response = await addTodo(todo);
-     setTodos([...todos, response.data]);
+     await addTodo(todo);
+     getTodos().then((response) => {
+      setTodos(response);
+    })
   } catch (error) {
      console.log(error);
   }
@@ -37,7 +40,6 @@ export default function HomePage() {
         <p>
           Bienvenue sur la page d'accueil de l'application TODO !
         </p>
-
       </header>
       <button className='CreateNewTask' onClick={newTodo}> Nouvelle tâche </button>
 
@@ -50,7 +52,7 @@ export default function HomePage() {
                 </tr>
             </thead>
             <tbody>
-                {todos.map((task) => (
+                {todos && todos.map((task) => (
                     <Row key={task.id} object={task} />
                 ))}
             </tbody>
