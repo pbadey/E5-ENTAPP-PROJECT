@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://8mj5vbrs0k.execute-api.eu-west-2.amazonaws.com/dev",
 });
 
 export async function getTodos() {
